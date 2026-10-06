@@ -1,0 +1,16 @@
+{
+  "name": "real-time-chat-room",
+  "version": "1.0.0",
+  "description": "Real Time Chat Room with chat, voice call, video call and AI assistant",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "express": "^5.2.1",
+    "openai": "^6.0.0",
+    "socket.io": "^4.8.4"
+  }
+}

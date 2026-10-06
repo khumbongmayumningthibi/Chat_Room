@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>REAL TIME CHAT ROOM</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginScreen" class="login-screen">
+
+    <div class="login-box">
+
+        <h1>REAL TIME CHAT ROOM</h1>
+
+        <p>Enter your name to continue</p>
+
+        <input
+            id="usernameInput"
+            type="text"
+            placeholder="Enter your name"
+            maxlength="20"
+            autocomplete="off"
+        >
+
+        <button id="loginButton">
+            ENTER CHAT
+        </button>
+
+        <p id="loginError" class="error"></p>
+
+    </div>
+
+</div>
+
+
+<!-- CHAT APPLICATION -->
+
+<div id="chatApp" class="chat-app hidden">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="profile-section">
+
+            <div
+                id="myAvatar"
+                class="avatar large"
+            >
+                ?
+            </div>
+
+            <div class="my-info">
+
+                <strong id="myName">
+                    User
+                </strong>
+
+                <small>
+                    Online
+                </small>
+
+            </div>
+
+            <button
+                id="logoutButton"
+                class="logout-button"
+                title="Logout"
+            >
+                ⎋
+            </button>
+
+        </div>
+
+
+        <div class="sidebar-actions">
+
+            <label class="profile-upload">
+
+                📷 Profile
+
+                <input
+                    id="profilePictureInput"
+                    type="file"
+                    accept="image/*"
+                    hidden
+                >
+
+            </label>
+
+        </div>
+
+
+        <div class="users-title">
+            CHATS
+        </div>
+
+
+        <div id="usersList" class="users-list"></div>
+
+    </aside>
+
+
+    <!-- MAIN CHAT -->
+
+    <main class="chat-area">
+
+        <!-- EMPTY STATE -->
+
+        <div
+            id="emptyChat"
+            class="empty-chat"
+        >
+
+            <div class="empty-icon">
+                💬
+            </div>
+
+            <h2>REAL TIME CHAT ROOM</h2>
+
+            <p>
+                Select a user to start chatting.
+            </p>
+
+        </div>
+
+
+        <!-- ACTIVE CHAT -->
+
+        <div
+            id="activeChat"
+            class="active-chat hidden"
+        >
+
+            <!-- CHAT HEADER -->
+
+            <header class="chat-header">
+
+                <div class="chat-user-info">
+
+                    <div
+                        id="chatAvatar"
+                        class="avatar"
+                    >
+                        ?
+                    </div>
+
+                    <div>
+
+                        <strong id="chatUserName">
+                            User
+                        </strong>
+
+                        <small id="chatStatus">
+                            Offline
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="call-buttons">
+
+                    <button
+                        id="voiceCallButton"
+                        title="Voice call"
+                    >
+                        📞
+                    </button>
+
+                    <button
+                        id="videoCallButton"
+                        title="Video call"
+                    >
+                        📹
+                    </button>
+
+                    <button
+                        id="blockButton"
+                        title="Block user"
+                    >
+                        🚫
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- MESSAGES -->
+
+            <section
+                id="messages"
+                class="messages"
+            ></section>
+
+
+            <!-- TYPING -->
+
+            <div
+                id="typingIndicator"
+                class="typing-indicator"
+            ></div>
+
+
+            <!-- INPUT AREA -->
+
+            <footer class="message-area">
+
+                <div class="extra-buttons">
+
+                    <button
+                        id="emojiButton"
+                        title="Emoji"
+                    >
+                        😊
+                    </button>
+
+                    <button
+                        id="fileButton"
+                        title="Image/File"
+                    >
+                        📎
+                    </button>
+
+                    <button
+                        id="audioButton"
+                        title="Voice message"
+                    >
+                        🎙️
+                    </button>
+
+                    <input
+                        id="fileInput"
+                        type="file"
+                        hidden
+                    >
+
+                </div>
+
+
+                <input
+                    id="messageInput"
+                    type="text"
+                    placeholder="Type a message..."
+                    autocomplete="off"
+                >
+
+                <button
+                    id="sendButton"
+                    class="send-button"
+                >
+                    ➤
+                </button>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- CALL SCREEN -->
+
+<div
+    id="callScreen"
+    class="call-screen hidden"
+>
+
+    <div class="call-background">
+
+        <video
+            id="remoteVideo"
+            autoplay
+            playsinline
+        ></video>
+
+        <video
+            id="localVideo"
+            autoplay
+            muted
+            playsinline
+        ></video>
+
+    </div>
+
+
+    <div class="call-info">
+
+        <div
+            id="callAvatar"
+            class="avatar huge"
+        >
+            ?
+        </div>
+
+        <h2 id="callName">
+            Calling...
+        </h2>
+
+        <p id="callStatus">
+            Connecting...
+        </p>
+
+    </div>
+
+
+    <div class="call-controls">
+
+        <button
+            id="muteButton"
+            title="Mute"
+        >
+            🎤
+        </button>
+
+        <button
+            id="cameraButton"
+            title="Camera"
+        >
+            📹
+        </button>
+
+        <button
+            id="endCallButton"
+            class="end-call"
+            title="End call"
+        >
+            📞
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- INCOMING CALL -->
+
+<div
+    id="incomingCall"
+    class="incoming-call hidden"
+>
+
+    <div class="incoming-box">
+
+        <div
+            id="incomingAvatar"
+            class="avatar huge"
+        >
+            ?
+        </div>
+
+        <h2 id="incomingName">
+            User
+        </h2>
+
+        <p id="incomingType">
+            Incoming call
+        </p>
+
+        <div class="incoming-buttons">
+
+            <button
+                id="rejectCallButton"
+                class="reject"
+            >
+                ❌
+            </button>
+
+            <button
+                id="acceptCallButton"
+                class="accept"
+            >
+                📞
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
