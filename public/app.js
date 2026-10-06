@@ -2029,7 +2029,7 @@ socket.on(
 
         alert(
             data.message ||
-            "Message blocked."
+            "Message blockedd."
         );
     }
 );
