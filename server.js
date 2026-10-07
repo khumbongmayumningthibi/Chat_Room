@@ -15,6 +15,7 @@ app.use(express.json());
 
 // Stores users while server is running
 const users = new Map();
+const pendingMessages = new Map();
 
 function makeId(name) {
     return name
@@ -120,6 +121,21 @@ io.on("connection", socket => {
             profilePicture: user.profilePicture
         });
 
+        const queuedMessages = pendingMessages.get(user.id) || [];
+        pendingMessages.delete(user.id);
+
+        for (const message of queuedMessages) {
+            socket.emit("private-message", message);
+
+            const sender = users.get(message.from);
+
+            if (sender && sender.online && sender.socketId) {
+                io.to(sender.socketId).emit("message-delivered", {
+                    id: message.id
+                });
+            }
+        }
+
         sendUsers();
 
         console.log(`${name} joined`);
@@ -195,6 +211,12 @@ io.on("connection", socket => {
             });
 
         } else {
+
+            const queuedMessages =
+                pendingMessages.get(receiver.id) || [];
+
+            queuedMessages.push(message);
+            pendingMessages.set(receiver.id, queuedMessages);
 
             socket.emit("message-sent", {
                 id: data.id

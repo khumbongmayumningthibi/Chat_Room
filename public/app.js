@@ -619,23 +619,20 @@ socket.on("message-read", data => {
 
 function updateMessageStatus(id, status) {
 
-    if (!selectedUser) return;
+    const conversation = Object.entries(conversations)
+        .find(([, list]) => list.some(message => message.id === id));
 
-    const list =
-        conversations[selectedUser.id];
+    if (!conversation) return;
 
-    if (!list) return;
-
-    const message =
-        list.find(m => m.id === id);
-
-    if (!message) return;
-
+    const [userId, list] = conversation;
+    const message = list.find(item => item.id === id);
     message.status = status;
 
     saveConversations();
 
-    renderMessages();
+    if (selectedUser?.id === userId) {
+        renderMessages();
+    }
 }
 
 
